@@ -17,9 +17,30 @@ jQuery(function($){
 
         return false;
     });
+
+    /* TODO: Make this use the same hotlinking setting as the other admin tools */
+    $.getScript("http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js", function () {
+        $(".fe_box").parent().sortable({
+            forceHelperSize: true,
+            forcePlaceholderSize: true,
+            handle: ".thumb",
+            helper: "clone",
+            items: ".fe_box",
+            placeholder: "ui-sortable-placeholder",
+            tolerance: "pointer", 
+
+            start: function (evt, ui) {
+                $(ui.item).parent().find(".fe_box > .content").height(48);
+                $(this).sortable('refreshPositions');
+            },
+            stop: function (evt, ui) {
+                $(ui.item).parent().find(".fe_box > .content").height("auto");
+            }
+        });
+    });
 });
 
-/* 
+/*
     These are outside of the on-load closure so they're visible to outside
     callers such as feincms/templates/admin/feincms/fe_editor_done.html
 */
